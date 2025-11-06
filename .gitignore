@@ -1,3 +1,4 @@
 ./temp/*
 .env
-./tmp/*
+tmp/**/*
+tmp/build-errors.log
