@@ -23,5 +23,6 @@ func SetCookie(w http.ResponseWriter, token string, cfg AuthCookiecfg) {
 		Path:     "/",
 		MaxAge:   int(cfg.MaxAge),
 		Secure:   cfg.Secure,
+		Value:    token,
 	})
 }
