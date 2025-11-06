@@ -3,7 +3,8 @@ package apperr
 import "errors"
 
 var (
-	NotFound     = errors.New("not found")
-	UnAuthorized = errors.New("unauthorized")
-	Conflict     = errors.New("conflict")
+	ErrNotFound     = errors.New("not found")
+	ErrUnAuthorized = errors.New("unauthorized")
+	ErrConflict     = errors.New("conflict")
+	ErrServerFailed = errors.New("server error")
 )

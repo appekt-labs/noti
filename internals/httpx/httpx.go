@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/appekt-labs/noti/internals/apperr"
+	"github.com/appekt-labs/noti/internals/derrors"
 )
 
 type ErrorResponse struct {
@@ -26,10 +26,17 @@ func (e *ErrorResponse) ToHttp(w http.ResponseWriter, s int) {
 }
 
 func WriteError(w http.ResponseWriter, err error) {
-
 	switch {
-	case errors.Is(err, apperr.NotFound):
+	case errors.Is(err, derrors.ErrNotFound):
 		NewError(http.StatusNotFound, err.Error()).ToHttp(w, http.StatusNotFound)
+	case errors.Is(err, derrors.ErrInternal):
+		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w, http.StatusInternalServerError)
+	case errors.Is(err, derrors.ErrConflict):
+		NewError(http.StatusConflict, err.Error()).ToHttp(w, http.StatusConflict)
+	case errors.Is(err, derrors.ErrPermissionDenied):
+		NewError(http.StatusUnauthorized, err.Error()).ToHttp(w, http.StatusUnauthorized)
+	default:
+		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w, http.StatusInternalServerError)
 	}
 }
 
