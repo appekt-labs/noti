@@ -10,9 +10,12 @@ import (
 	"github.com/appekt-labs/noti/internals/auth"
 	"github.com/appekt-labs/noti/internals/config"
 	"github.com/appekt-labs/noti/internals/handlers"
+	"github.com/appekt-labs/noti/internals/middlewares"
 	"github.com/appekt-labs/noti/internals/repositories"
 	"github.com/appekt-labs/noti/internals/services"
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/gorilla/sessions"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/markbates/goth"
@@ -28,16 +31,17 @@ func main() {
 	}
 
 	// jwt manager;
-	jwtManager := auth.NewJWTManager(os.Getenv("JWT_SECRET"), time.Minute*15)
+	jwtManager := auth.NewJWTManager(os.Getenv("JWT_SECRET"), time.Minute*100)
 
 	// repositories;
 	userRepo := repositories.NewUserRepo(dbPool)
-
+	projectRepo := repositories.NewProjectRepository(dbPool)
 	// services;
 	userServices := services.NewUserService(userRepo, jwtManager)
-
+	projectServices := services.NewprojectService(projectRepo)
 	// handlers;
 	userHandler := handlers.NewUserHandler(userServices)
+	projectHandlers := handlers.NewProjectHandler(projectServices)
 	// goth config;
 	// gothic session;
 	gothic.Store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
@@ -50,10 +54,33 @@ func main() {
 	// chi router;
 	r := chi.NewMux()
 
+	// logger;
+	r.Use(middleware.Logger)
+	// r.Use(middleware.Recoverer)
+
+	// cors and allowed methods;
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000", "http://127.0.0.1:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}))
+
 	// auth routes;
 	authRoutes := chi.NewMux()
 	authRoutes.Get("/{provider}", gothic.BeginAuthHandler)
 	authRoutes.Get("/{provider}/callback", userHandler.Login)
+
+	// protected routes;
+	r.Group(func(p chi.Router) {
+
+		// middleware goes here;
+		p.Use(middlewares.WithUser(jwtManager))
+		p.Post("/projects", projectHandlers.Create)
+		p.Get("/projects", projectHandlers.FetchProjects)
+	})
 
 	// mount to the main router;
 	r.Mount("/auth", authRoutes)
