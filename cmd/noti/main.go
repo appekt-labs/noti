@@ -36,12 +36,15 @@ func main() {
 	// repositories;
 	userRepo := repositories.NewUserRepo(dbPool)
 	projectRepo := repositories.NewProjectRepository(dbPool)
+	messageRepo := repositories.NewMessageRepository(dbPool)
 	// services;
 	userServices := services.NewUserService(userRepo, jwtManager)
 	projectServices := services.NewprojectService(projectRepo)
+	messageService := services.NewMessageService(messageRepo)
 	// handlers;
 	userHandler := handlers.NewUserHandler(userServices)
 	projectHandlers := handlers.NewProjectHandler(projectServices)
+	messageHandler := handlers.NewMessageHandler(messageService)
 	// goth config;
 	// gothic session;
 	gothic.Store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_SECRET")))
@@ -80,6 +83,7 @@ func main() {
 		p.Use(middlewares.WithUser(jwtManager))
 		p.Post("/projects", projectHandlers.Create)
 		p.Get("/projects", projectHandlers.FetchProjects)
+		p.Post("/messages", messageHandler.Create)
 	})
 
 	// mount to the main router;
