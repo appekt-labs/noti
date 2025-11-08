@@ -10,16 +10,17 @@ import (
 )
 
 type Message struct {
-	Title       string //title of the message
-	Description string //description of the message
-	Type        string //banner, modal, toast
-	Variant     string //info, warning, danger, success
-	ProjectId   string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	ActiveFrom  time.Time //when the notification can be displaced;
-	ActiveTo    time.Time //when the notification can no longer be displaced
-	Metadata    any       //more information about the message can be dumped here
+	Id          string    `json:"id"`
+	Title       string    `json:"title"`       //title of the message
+	Description string    `json:"description"` //description of the message
+	Type        string    `json:"type"`        //banner, modal, toast
+	Variant     string    `json:"variant"`     //info, warning, danger, success
+	ProjectId   string    `json:"projectId"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	ActiveFrom  time.Time `json:"activeFrom"` //when the notification can be displaced;
+	ActiveTo    time.Time `json:"activeTo"`   //when the notification can no longer be displaced
+	Metadata    any       `json:"metadata"`   //more information about the message can be dumped here
 }
 
 // message creation body;

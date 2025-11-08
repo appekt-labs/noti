@@ -78,13 +78,16 @@ func main() {
 
 	// protected routes;
 	r.Group(func(p chi.Router) {
-
 		// middleware goes here;
 		p.Use(middlewares.WithUser(jwtManager))
 		p.Post("/projects", projectHandlers.Create)
 		p.Get("/projects", projectHandlers.FetchProjects)
+		p.Get("/projects/{projectId}/messages", messageHandler.FetchAllMessages)
 		p.Post("/messages", messageHandler.Create)
 	})
+
+	// public route for fetching messages(to be used by the public script);
+	r.Get("/projects/{projectKey}/messages", messageHandler.FetchActiveMessages)
 
 	// mount to the main router;
 	r.Mount("/auth", authRoutes)
