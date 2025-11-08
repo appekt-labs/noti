@@ -28,7 +28,7 @@ func (h *ProjectHandler) Create(w http.ResponseWriter, r *http.Request) {
 	userClaims, ok := r.Context().Value(middlewares.ClaimsKey).(*auth.UserClaims)
 
 	if !ok {
-		httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w, http.StatusUnauthorized)
+		httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w)
 		return
 	}
 
@@ -38,7 +38,7 @@ func (h *ProjectHandler) Create(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&project)
 
 	if err != nil {
-		httpx.NewError(http.StatusBadRequest, "no name provided").ToHttp(w, http.StatusBadRequest)
+		httpx.NewError(http.StatusBadRequest, "no name provided").ToHttp(w)
 		return
 	}
 
@@ -46,7 +46,7 @@ func (h *ProjectHandler) Create(w http.ResponseWriter, r *http.Request) {
 	err = project.Validate()
 
 	if err != nil {
-		httpx.NewError(http.StatusBadRequest, err.Error()).ToHttp(w, http.StatusBadRequest)
+		httpx.NewError(http.StatusBadRequest, err.Error()).ToHttp(w)
 		return
 	}
 
@@ -69,7 +69,7 @@ func (h *ProjectHandler) FetchProjects(w http.ResponseWriter, r *http.Request) {
 
 	if !ok {
 		log.Println("failed to decode the user claims in context")
-		httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w, http.StatusUnauthorized)
+		httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w)
 		return
 	}
 

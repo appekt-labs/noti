@@ -28,15 +28,15 @@ func (e *ErrorResponse) ToHttp(w http.ResponseWriter) {
 func WriteError(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, derrors.ErrNotFound):
-		NewError(http.StatusNotFound, err.Error()).ToHttp(w, http.StatusNotFound)
+		NewError(http.StatusNotFound, err.Error()).ToHttp(w)
 	case errors.Is(err, derrors.ErrInternal):
-		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w, http.StatusInternalServerError)
+		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w)
 	case errors.Is(err, derrors.ErrConflict):
-		NewError(http.StatusConflict, err.Error()).ToHttp(w, http.StatusConflict)
+		NewError(http.StatusConflict, err.Error()).ToHttp(w)
 	case errors.Is(err, derrors.ErrPermissionDenied):
-		NewError(http.StatusUnauthorized, err.Error()).ToHttp(w, http.StatusUnauthorized)
+		NewError(http.StatusUnauthorized, err.Error()).ToHttp(w)
 	default:
-		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w, http.StatusInternalServerError)
+		NewError(http.StatusInternalServerError, err.Error()).ToHttp(w)
 	}
 }
 

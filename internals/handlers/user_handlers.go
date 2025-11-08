@@ -29,7 +29,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println("Gothic error:", err)
-		httpx.NewError(http.StatusBadGateway, "Failed to complete auth").ToHttp(w, http.StatusBadGateway)
+		httpx.NewError(http.StatusBadGateway, "Failed to complete auth").ToHttp(w)
 
 		return
 	}

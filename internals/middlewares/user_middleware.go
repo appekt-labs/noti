@@ -26,7 +26,7 @@ func WithUser(jwtManager *auth.JWTManager) func(http.Handler) http.Handler {
 
 			if err != nil {
 				log.Println("No cookie provided:", err)
-				httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w, http.StatusUnauthorized)
+				httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w)
 				return
 			}
 
@@ -41,7 +41,7 @@ func WithUser(jwtManager *auth.JWTManager) func(http.Handler) http.Handler {
 
 			if strings.TrimSpace(val) == "" {
 				log.Println("Invalid cookie value:", val)
-				httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w, http.StatusUnauthorized)
+				httpx.NewError(http.StatusUnauthorized, "Unauthorized").ToHttp(w)
 				return
 			}
 
@@ -49,7 +49,7 @@ func WithUser(jwtManager *auth.JWTManager) func(http.Handler) http.Handler {
 
 			if err != nil {
 				log.Println("Error verifying claims:", err)
-				httpx.NewError(http.StatusUnauthorized, "User is Unauthorized").ToHttp(w, http.StatusUnauthorized)
+				httpx.NewError(http.StatusUnauthorized, "User is Unauthorized").ToHttp(w)
 				return
 			}
 
