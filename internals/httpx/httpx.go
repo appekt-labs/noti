@@ -19,9 +19,9 @@ func NewError(code int, message string) *ErrorResponse {
 	}
 }
 
-func (e *ErrorResponse) ToHttp(w http.ResponseWriter, s int) {
+func (e *ErrorResponse) ToHttp(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(s)
+	w.WriteHeader(e.Code)
 	_ = json.NewEncoder(w).Encode(e)
 }
 
