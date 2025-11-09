@@ -55,9 +55,6 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Secure:   false,
 		MaxAge:   time.Second * 15,
 	})
-	resp := httpx.SuccessResponse{
-		Code:    http.StatusOK,
-		Message: "Auth sucessful",
-	}
-	httpx.JSON(w, http.StatusOK, resp)
+	// redirect to dashboard
+	http.Redirect(w, r, "http://localhost:5173/dashboard", http.StatusSeeOther)
 }
