@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/appekt-labs/noti/internals/httpx"
@@ -56,5 +57,5 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		MaxAge:   time.Second * 15,
 	})
 	// redirect to dashboard
-	http.Redirect(w, r, "http://localhost:5173/dashboard", http.StatusSeeOther)
+	http.Redirect(w, r, os.Getenv("APP_URL"), http.StatusSeeOther)
 }
