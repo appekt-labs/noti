@@ -87,7 +87,7 @@ func main() {
 	})
 
 	// public route for fetching messages(to be used by the public script);
-	r.Get("/projects/{projectKey}/messages", messageHandler.FetchActiveMessages)
+	r.Get("/projects/{projectKey}/notifications", messageHandler.FetchActiveMessages)
 
 	// mount to the main router;
 	r.Mount("/auth", authRoutes)
