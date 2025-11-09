@@ -11,12 +11,12 @@ type CreateProject struct {
 }
 
 type Project struct {
-	Id         string
-	Name       string
-	ProjectKey string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	UserId     string
+	Id         string    `json:"id"`
+	Name       string    `json:"name"`
+	ProjectKey string    `json:"projectKey"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
+	UserId     string    `json:"userId"`
 }
 
 func (p CreateProject) Validate() error {
