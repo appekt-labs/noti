@@ -91,5 +91,10 @@ func main() {
 
 	// mount to the main router;
 	r.Mount("/auth", authRoutes)
-	http.ListenAndServe(":3000", r)
+
+	// v1 api router;
+	apiV1 := chi.NewMux()
+
+	apiV1.Mount("/api/v1", r)
+	http.ListenAndServe(":3000", apiV1)
 }
