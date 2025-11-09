@@ -26,7 +26,7 @@ function NavigationMenu() {
                     </ul>
                     <Button 
                         onClick={() => {
-                            window.location.href = '/api/auth/google'
+                            window.location.href = '/api/v1/auth/google'
                         }}
                         className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200"
                     >

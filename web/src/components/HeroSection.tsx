@@ -32,7 +32,7 @@ function HeroSection() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                     <Button
                         onClick={() => {
-                            window.location.href = '/api/auth/google'
+                            window.location.href = '/api/v1/auth/google'
                         }}
                         className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40"
                     >

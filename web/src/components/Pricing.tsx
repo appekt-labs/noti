@@ -69,7 +69,7 @@ function Pricing() {
                                 </ul>
                                 <Button 
                                     onClick={() => {
-                                        window.location.href = '/api/auth/google'
+                                        window.location.href = '/api/v1/auth/google'
                                     }}
                                     className={`w-full py-3 rounded-lg font-semibold transition-all duration-200 ${plan.popular ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/30' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'}`}
                                 >
