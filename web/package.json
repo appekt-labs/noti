@@ -1,0 +1,53 @@
+{
+  "name": "noti",
+  "private": false,
+  "version": "0.0.0",
+  "type": "module",
+  "keywords": [
+    "in-app messages",
+    "product releases",
+    "discount announcements",
+    "feature announcements"
+  ],
+  "description": "Simpled in app messages for product updates, feature announcements, and alerts",
+  "author": {
+    "name": "appekt labs",
+    "email": "appekt.labs@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@tailwindcss/vite": "^4.1.17",
+    "axios": "^1.13.2",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.8",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.6.0",
+    "react-loader-spinner": "^8.0.0",
+    "react-router": "^7.9.5",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.17",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5"
+  },
+  "proxy": "http://localhost:3000"
+}
