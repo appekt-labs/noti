@@ -11,18 +11,10 @@ function Pricing() {
             icon: "bg-blue-100 text-blue-600"
         },
         {
-            name: "Pro",
-            price: "$29",
-            messages: "1000 messages per month",
-            features: ["Advanced messaging", "Priority support", "Analytics dashboard", "Custom branding"],
-            popular: true,
-            icon: "bg-emerald-100 text-emerald-600"
-        },
-        {
             name: "Enterprise",
             price: "Custom",
             messages: "Unlimited messages",
-            features: ["Everything in Pro", "Dedicated support", "Custom integrations", "SLA guarantee"],
+            features: ["Advanced messaging", "Priority support", "Analytics dashboard", "Custom branding", "Dedicated support", "Custom integrations", "SLA guarantee"],
             icon: "bg-purple-100 text-purple-600"
         }
     ]
@@ -38,18 +30,13 @@ function Pricing() {
                         Simple, transparent pricing
                     </h2>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Choose the perfect plan for your team. Start free and scale as you grow with flexible pricing options.
+                        Start with our free plan. If you need more features, contact us to arrange an enterprise plan tailored to your needs.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                     {
                         plans.map((plan) => (
-                            <div key={plan.name} className={`bg-white p-8 rounded-xl border ${plan.popular ? 'border-emerald-500 shadow-xl shadow-emerald-500/20' : 'border-gray-100 shadow-sm'} relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
-                                {plan.popular && (
-                                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold">
-                                        Most Popular
-                                    </div>
-                                )}
+                            <div key={plan.name} className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                                 <div className={`w-12 h-12 ${plan.icon} rounded-lg flex items-center justify-center mb-6`}>
                                     <FiDollarSign className="w-6 h-6" />
                                 </div>
@@ -67,20 +54,25 @@ function Pricing() {
                                         </li>
                                     ))}
                                 </ul>
-                                <Button 
+                                <Button
                                     onClick={() => {
-                                        window.location.href = '/api/v1/auth/google'
+                                        if (plan.name === "Enterprise") {
+                                            // Contact us action - you can update this to your contact form or email
+                                            window.location.href = 'mailto:support@example.com?subject=Enterprise Plan Inquiry'
+                                        } else {
+                                            window.location.href = '/api/v1/auth/google'
+                                        }
                                     }}
-                                    className={`w-full py-3 rounded-lg font-semibold transition-all duration-200 ${plan.popular ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/30' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'}`}
+                                    className="w-full py-3 rounded-lg font-semibold transition-all duration-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700"
                                 >
-                                    Get Started
+                                    {plan.name === "Enterprise" ? "Contact Us" : "Get Started"}
                                 </Button>
                             </div>
                         ))
                     }
                 </div>
                 <p className="text-center text-sm text-gray-500 mt-12">
-                    All plans include 14-day free trial. No credit card required.
+                    Free plan available forever. No credit card required.
                 </p>
             </div>
         </section>
