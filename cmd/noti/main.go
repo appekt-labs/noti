@@ -13,6 +13,7 @@ import (
 	"github.com/appekt-labs/noti/internals/middlewares"
 	"github.com/appekt-labs/noti/internals/repositories"
 	"github.com/appekt-labs/noti/internals/services"
+	"github.com/appekt-labs/noti/scripts"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -96,5 +97,9 @@ func main() {
 	apiV1 := chi.NewMux()
 
 	apiV1.Mount("/api/v1", r)
+
+	// serve the static scripts for the client;
+	apiV1.Get("/scripts/*", scripts.ServeScripts)
+
 	http.ListenAndServe(":3000", apiV1)
 }
