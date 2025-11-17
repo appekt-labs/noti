@@ -25,7 +25,12 @@ import (
 )
 
 func main() {
-	dbPool, err := config.NewDBPool(context.Background(), os.Getenv("DB_URL"))
+	// ctx, defer := context.WithTimeout(context.Background(), time.Second*5);
+	dbCtx, close := context.WithTimeout(context.Background(), time.Second*5)
+
+	defer close()
+
+	dbPool, err := config.NewDBPool(dbCtx, os.Getenv("DB_URL"))
 
 	if err != nil {
 		log.Fatalf("Failed to connect to DB: %v", err)
@@ -64,7 +69,7 @@ func main() {
 
 	// cors and allowed methods;
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000", "http://127.0.0.1:3000"},
+		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
