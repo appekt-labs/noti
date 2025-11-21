@@ -14,6 +14,7 @@ import (
 	"github.com/appekt-labs/noti/internals/repositories"
 	"github.com/appekt-labs/noti/internals/services"
 	"github.com/appekt-labs/noti/scripts"
+	"github.com/appekt-labs/noti/web"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -69,7 +70,7 @@ func main() {
 
 	// cors and allowed methods;
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"*"},
+		AllowedOrigins:   []string{os.Getenv("ALLOWED_ORIGIN")},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
@@ -104,7 +105,23 @@ func main() {
 	apiV1.Mount("/api/v1", r)
 
 	// serve the static scripts for the client;
-	apiV1.Get("/scripts/*", scripts.ServeScripts)
+	// seperate route to serve the script;
+	scriptRoute := chi.NewMux()
+	scriptRoute.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}))
+	scriptRoute.Get("/*", scripts.ServeScripts)
+	apiV1.Mount("/scripts", scriptRoute)
+
+	// mounted client;
+	webRouter := chi.NewMux()
+	webRouter.Get("/*", web.ServeWeb)
+	apiV1.Mount("/", webRouter)
 
 	http.ListenAndServe(":3000", apiV1)
 }
