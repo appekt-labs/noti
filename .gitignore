@@ -2,3 +2,4 @@
 .env
 tmp/**/*
 tmp/build-errors.log
+db/password.txt
