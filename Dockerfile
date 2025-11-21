@@ -5,12 +5,30 @@
 # https://docs.docker.com/go/dockerfile-reference/
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
-################################################################################
-# Create a stage for building the application.
 ARG GO_VERSION=1.24.1
+# This is the architecture you're building for, which is passed in by the builder.
+# Placing it here allows the previous steps to be cached across architectures.
+ARG TARGETARCH
+################################################################################
+FROM node:20-alpine AS client_builder
+
+WORKDIR /client
+
+COPY web/package.json web/package-lock.json ./
+RUN npm install
+
+COPY web .
+
+RUN npm run build
+
+# Create a stage for building the application.
+
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
 WORKDIR /src
+
+
+# copy static builds from the frontend builder into this;
+COPY --from=client_builder /client/dist ./web/dist
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
@@ -21,16 +39,16 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
     --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
 
-# This is the architecture you're building for, which is passed in by the builder.
-# Placing it here allows the previous steps to be cached across architectures.
-ARG TARGETARCH
+
+
+# Copy the source code into the container.
+# We need to copy instead of bind mount because the embed directive needs
+# the dist files to be present in the filesystem during compilation.
+COPY . .
 
 # Build the application.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
-# Leverage a bind mount to the current directory to avoid having to copy the
-# source code into the container.
 RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,target=. \
     CGO_ENABLED=0 GOARCH=$TARGETARCH go build -o /bin/server ./cmd/noti/main.go
 
 ################################################################################
