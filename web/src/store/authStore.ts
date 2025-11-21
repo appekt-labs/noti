@@ -6,7 +6,7 @@ interface AuthState {
   setAuthenticated: (value: boolean) => void
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: (() => {
     const cookies = document.cookie.split(';')
     const hasToken = cookies.some(cookie =>
