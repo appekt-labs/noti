@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/jackc/pgx/v5"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 )
 
@@ -15,7 +15,7 @@ var embedMigrations embed.FS
 
 func RunMigrations() {
 	log.SetFlags(0)
-	db, err := sql.Open(os.Getenv("GOOSE_DRIVER"), os.Getenv("GOOSE_DBSTRING"))
+	db, err := sql.Open("pgx", os.Getenv("GOOSE_DBSTRING"))
 	if err != nil {
 		log.Fatal(err)
 	}
