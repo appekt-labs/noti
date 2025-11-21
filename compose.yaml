@@ -67,5 +67,4 @@ networks:
   noti:
     driver: bridge
   web:
-    external:
-      name: web
+    external: true
