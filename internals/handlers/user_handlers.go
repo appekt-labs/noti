@@ -57,5 +57,5 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		MaxAge:   time.Second * 15,
 	})
 	// redirect to dashboard
-	http.Redirect(w, r, os.Getenv("APP_URL"), http.StatusSeeOther)
+	http.Redirect(w, r, os.Getenv("APP_DASHBOARD"), http.StatusSeeOther)
 }
