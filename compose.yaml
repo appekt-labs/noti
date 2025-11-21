@@ -18,6 +18,16 @@ services:
       - .env
     networks:
       - noti
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server.rule=Host(`noti.appekt-labs.com`)"
+      - "traefik.http.routers.server.entrypoints=websecure"
+      - "traefik.http.routers.server.tls=true"
+      - "traefik.http.routers.server.tls.certresolver=letsencrypt"
+      - "traefik.http.services.server.loadbalancer.server.port=3000"
+      - "traefik.http.routers.server-redirect.middlewares=redirect-to-https"
+      - "traefik.docker.network=web"
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
 # start the database before your application. The `db-data` volume persists the
@@ -56,3 +66,6 @@ secrets:
 networks:
   noti:
     driver: bridge
+  web:
+    external:
+      name: web
