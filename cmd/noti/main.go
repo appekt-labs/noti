@@ -14,6 +14,7 @@ import (
 	"github.com/appekt-labs/noti/internals/repositories"
 	"github.com/appekt-labs/noti/internals/services"
 	"github.com/appekt-labs/noti/scripts"
+	migrations "github.com/appekt-labs/noti/sql"
 	"github.com/appekt-labs/noti/web"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
@@ -26,6 +27,10 @@ import (
 )
 
 func main() {
+
+	// run migrations;
+	migrations.RunMigrations()
+
 	// ctx, defer := context.WithTimeout(context.Background(), time.Second*5);
 	dbCtx, close := context.WithTimeout(context.Background(), time.Second*5)
 
