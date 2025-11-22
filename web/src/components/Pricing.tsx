@@ -58,7 +58,7 @@ function Pricing() {
                                     onClick={() => {
                                         if (plan.name === "Enterprise") {
                                             // Contact us action - you can update this to your contact form or email
-                                            window.location.href = 'mailto:support@example.com?subject=Enterprise Plan Inquiry'
+                                            window.location.href = 'mailto:info@appekt-labs.com?subject=Enterprise Plan Inquiry'
                                         } else {
                                             window.location.href = '/api/v1/auth/google'
                                         }
