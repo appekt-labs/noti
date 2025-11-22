@@ -96,6 +96,15 @@ func main() {
 			httpx.NewError(http.StatusBadRequest, "Failed to log out").ToHttp(w)
 			return
 		}
+
+		httpx.SetCookie(w, "", httpx.AuthCookiecfg{
+			Name:     "access_token",
+			Path:     "/",
+			HttpOnly: os.Getenv("ENV") == "prod",
+			Secure:   os.Getenv("ENV") == "prod",
+			MaxAge:   time.Second * 15,
+		})
+
 		http.Redirect(w, r, os.Getenv("APP_URL"), http.StatusSeeOther)
 	})
 

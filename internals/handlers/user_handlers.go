@@ -52,8 +52,8 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	httpx.SetCookie(w, token, httpx.AuthCookiecfg{
 		Name:     "access_token",
 		Path:     "/",
-		HttpOnly: false,
-		Secure:   false,
+		HttpOnly: os.Getenv("ENV") == "prod",
+		Secure:   os.Getenv("ENV") == "prod",
 		MaxAge:   time.Second * 15,
 	})
 	// redirect to dashboard
