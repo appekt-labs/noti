@@ -24,13 +24,13 @@ function NavigationMenu() {
                             </a>
                         </li>
                     </ul>
-                    <Button 
+                    <Button
                         onClick={() => {
                             window.location.href = '/api/v1/auth/google'
                         }}
                         className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200"
                     >
-                        Sign in
+                        Sign in with google
                     </Button>
                 </div>
             </div>

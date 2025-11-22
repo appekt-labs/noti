@@ -7,7 +7,6 @@ import { FiPlus, FiCopy, FiCheck, FiFolder, FiMessageSquare, FiCalendar } from '
 import { format } from 'date-fns'
 import { Button } from '@headlessui/react'
 import Logo from '../components/Logo'
-
 function Dashboard() {
   const [showCreateProject, setShowCreateProject] = useState(false)
   const [showCreateMessage, setShowCreateMessage] = useState(false)
@@ -72,6 +71,12 @@ function Dashboard() {
               >
                 <FiPlus className="w-4 h-4" />
                 New Project
+              </Button>
+
+              <Button onClick={async () => {
+                window.location.href = '/api/v1/auth/logout'
+              }} className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2">
+                Log out
               </Button>
             </div>
           </div>

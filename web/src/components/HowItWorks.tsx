@@ -3,7 +3,7 @@ import { FiPlay, FiLogIn, FiFolder, FiMessageSquare } from "react-icons/fi"
 function HowItWorks() {
     const steps = [
         {
-            title: "Sign in",
+            title: "Sign in with google",
             description: "Create your account or sign in to get started with Noti",
             number: "01",
             icon: FiLogIn,
