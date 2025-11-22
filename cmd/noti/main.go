@@ -10,6 +10,7 @@ import (
 	"github.com/appekt-labs/noti/internals/auth"
 	"github.com/appekt-labs/noti/internals/config"
 	"github.com/appekt-labs/noti/internals/handlers"
+	"github.com/appekt-labs/noti/internals/httpx"
 	"github.com/appekt-labs/noti/internals/middlewares"
 	"github.com/appekt-labs/noti/internals/repositories"
 	"github.com/appekt-labs/noti/internals/services"
@@ -87,6 +88,16 @@ func main() {
 	authRoutes := chi.NewMux()
 	authRoutes.Get("/{provider}", gothic.BeginAuthHandler)
 	authRoutes.Get("/{provider}/callback", userHandler.Login)
+	authRoutes.Get("/logout", func(w http.ResponseWriter, r *http.Request) {
+		err := gothic.Logout(w, r)
+
+		if err != nil {
+			log.Println("error logging out: ", w)
+			httpx.NewError(http.StatusBadRequest, "Failed to log out").ToHttp(w)
+			return
+		}
+		http.Redirect(w, r, os.Getenv("APP_URL"), http.StatusSeeOther)
+	})
 
 	// protected routes;
 	r.Group(func(p chi.Router) {
